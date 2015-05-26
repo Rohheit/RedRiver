@@ -1,0 +1,14 @@
+This document describes core fileset operations.
+
+GENERATE
+
+    Generate a manifest that describes a fileset.
+
+VERIFY
+
+    Verify that manifest still correctly describes the current state of the fileset, including re-reading all files
+    and recomputing all hashes.
+
+PURGE
+
+    Remove all files in the fileset that are present in manifest, with verifying full hashes.
