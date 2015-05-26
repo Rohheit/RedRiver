@@ -137,6 +137,8 @@ hash is the MD5 hash value of the file's first 64K followed by the file's last 6
 4.11. The order of filespec lines is not important. However, directory entries must appear after all file and directory
 entries contained therein (thus allowing for single-pass deletions).
 
+4.12. Duplicate filenames should be avoided. The application may generate errors upon encountering duplicate filenames.
+
 5. PATHS
 
 The following rules are established for path / filename representations:
