@@ -3,91 +3,13 @@ A file manifest describes a set of files located on a volume.
 
 1. GENERAL FORMAT
 
-1.1. A file manifest is a text file, consisting of lines. Each line is terminated by either CR, LF or any combination
-thereof. The last line may be terminated by the EOF. Empty lines and lines consisting solely of whitespace are ignored.
+1.1. A file manifest is a text file (generally with a .rrm extension), consisting of lines. Each line is terminated by either
+CR, LF or any combination thereof. The last line may be terminated by the EOF. Empty lines and lines consisting solely of
+whitespace are ignored.
 
 1.2. The manifest file uses the UTF-8 encoding. There must be no BOM at the beginning of the file.
 
 1.3. Leading and trailing whitespace is not significant and is trimmed from each line before processing.
-
-1.4. The overall structure of the manifest is as follows:
-
-        ::RED_RIVER_MANIFEST = vX.X
-            <METADATA_1>
-            <METADATA_2>
-            ...
-            <METADATA_K>
-        ::BEGIN
-            <FILESPEC_1>
-            <FILESPEC_2>
-            ...
-            <FILESPEC_N>
-        ::END
-
-Note: indentation is neither required nor recommended and is added only to demonstrate structure.
-
-
-2. METADATA
-
-2.1. Manifest metadata entry is described by a line in the following format:
-
-        ::KEY=VALUE
-
-2.2. All four elements of the above may be separated by one or more whitespace, e.g.
-
-        :: KEY =    VALUE
-
-2.3. The =VALUE part may be omitted, in which case the value is presumed to be an empty string.
-
-2.4. Keys are case-insensitive. Values are generally case-sensitive but it ultimately depends on semantics.
-
-2.5. Keys should consist only of the following characters: A-Z, a-z, 0-9, - (minus sign) and _ (undescore).
-
-2.6. Value consists of everything between (and including) the first non-whitespace character following the = sign and
-the last non-whitespace character of the line. All whitespace therein is a part of the value, is deemed meaningful and
-should not be modified in any way before being passed to the application.
-
-2.7. The order of metadata entries is not important, with the exception of the header (::RED_RIVER_MANIFEST) and
-the ::BEGIN / ::END delimiters.
-
-2.8. Duplicate keys should be avoided. The application may generate errors upon seeing duplicate keys, especially when
-their values do not match. "Last value wins" is generally not considered a valid approach.
-
-
-3. METADATA SUPPORTED IN VERSION 1.0
-
-3.1. RED_RIVER_MANIFEST = v1.0
-
-Describes the file as the RedRiver manifest file. "v1.0" is the only supported value. This metadata entry must be the
-first non-empty line in the manifest file.
-
-3.2. VOLUME_ID = <volume_id>
-
-Identifies the volume that was used to generate the manifest. The value is a free-form string, e.g. a GUID, "HDD1" or
-"Seagate 7200.11 500GB S/N x2943"; however, the value should uniquely identify the volume among all volumes managed by
-the system. The presence of this metadata entry is optional but highly recommended.
-
-3.3. BASE_PATH = <path>
-
-The manifest can describe either all files on the volume or all files in a directory on the volume. In either case,
-BASE_PATH is a relative path (starting from the volume mount point) that points to the enumeration root, e.g.
-
-    /                   if all files on the volume are enumerated; also the presumed value if the entry is not present
-    /foo/bar            if all files under /mnt/vol1/foo/bar are enumerated and the volume is mounted at /mnt/vol1
-    /foo/bar            if all files under D:\foo\bar are enumerated and the volume is mounted as D:
-
-The value must start with / (forward slash). See also section 5 for other path specification rules.
-
-3.4. ::BEGIN and ::END
-
-::BEGIN and ::END delimit the filespec list (see section 4). All other metatada entries should be placed ahead of the
-filespec list. There should be only one filespec list, and consequently only one pair of ::BEGIN / ::END entries, in
-that order. ::BEGIN and ::END entries can have no values.
-
-3.5. UNSUPPORTED METADATA ENTRIES
-
-All other metadata keys are not supported in version 1.0. The application may generate errors upon seeing unsupported
-metadata keys.
 
 
 4. FILESPEC LIST
