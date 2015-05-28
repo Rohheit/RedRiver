@@ -12,3 +12,7 @@ VERIFY
 PURGE
 
     Remove all files in the fileset that are present in manifest, with verifying full hashes.
+    
+DIFF
+
+    Compare two manifests.
